@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Warcraft Grimoire</title>
+
+  <!-- ── Google Fonts ── -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet"/>
+
+  <!-- ── Stylesheet ── -->
+  <link rel="stylesheet" href="assets/css/main.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     WARCRAFT GRIMOIRE
+     ~/>  Warcraft Grimoire  ·  v1h
+     Reskinned from the Book of Shadows shell (wiccan.html) —
+     see the D&D Grimoire project for the same mapping pattern.
+     Journal→Chronicle, Spell→System, Ritual→Item, Rede→Comparison,
+     Tarot→Icon. Calendar removed (no WoW equivalent).
+══════════════════════════════ -->
+<div id="app">
+
+  <!-- ── HEADER ── -->
+  <header id="header">
+    <div class="header-left">
+      <div class="app-wordmark">
+        <span class="wordmark-sub">World of</span>
+        <span class="wordmark-main">Warcraft</span>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div id="live-clock">
+        <span id="clock-time">00:00:00</span>
+        <span id="clock-date"></span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <!-- Entry type selector buttons -->
+      <button class="type-btn active" data-type="chronicle"  title="Chronicle — History & Lore">&#x1F4D6; Chronicle</button>
+      <button class="type-btn" data-type="system"     title="System — How To Play">&#x2694;&#xFE0F; System</button>
+      <button class="type-btn" data-type="item"       title="Item — Weapons, Potions, Gear">&#x1F392; Item</button>
+      <button class="type-btn" data-type="comparison" title="Comparison — Era vs Era">&#x1F4CA; Comparison</button>
+      <button class="type-btn" data-type="icon"       title="Icon — Symbol Glossary">&#x1F523; Icon</button>
+      <div class="divider-v"></div>
+      <button class="hdr-btn" id="btn-reader" title="Read the Grimoire">&#x1F4D6; Read</button>
+      <button class="hdr-btn" id="btn-highlights" title="My Highlights">&#x1F58D;&#xFE0F; Highlights</button>
+      <button class="hdr-btn" id="btn-dictionary" title="WoW Terms Dictionary">&#x1F4D6; Dictionary</button>
+      <button class="hdr-btn" id="btn-characters" title="Major Characters">&#x1F3AD; Characters</button>
+      <button class="hdr-btn" id="btn-restock" title="Add any new seed content you're missing">&#x1F504; Restock</button>
+      <div id="storage-status" class="storage-status loaded">0 entries</div>
+    </div>
+  </header><!-- /header -->
+
+
+  <!-- ── MAIN LAYOUT ── -->
+  <div id="main">
+
+    <!-- ══════════════════════════════
+         COMPOSER PANEL
+         All entry-type forms live here; only one visible at a time.
+    ══════════════════════════════ -->
+    <div id="composer">
+
+      <!-- ── Date stamp ── -->
+      <div class="composer-datestamp">
+        <span id="stamp-day"></span>
+        <span id="stamp-date"></span>
+        <span id="stamp-time"></span>
+      </div>
+
+      <!-- ══════════════════════════════
+           CHRONICLE COMPOSER
+           History & lore — WoW's story from Vanilla through Forever.
+      ══════════════════════════════ -->
+      <div class="entry-form" id="form-chronicle">
+        <div class="composer-field">
+          <input type="text" id="chronicle-title" class="composer-title-input" placeholder="Chronicle title&hellip;" autocomplete="off" spellcheck="true"/>
+        </div>
+        <div class="composer-field">
+          <textarea id="chronicle-body" class="composer-body" placeholder="What happened&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Era -->
+        <div class="composer-row">
+          <label class="composer-label">Era</label>
+          <div class="pill-grid" id="chronicle-era-grid">
+            <button class="pill-btn active" data-val="vanilla">Vanilla (2004)</button>
+            <button class="pill-btn" data-val="tbc">Burning Crusade (2007)</button>
+            <button class="pill-btn" data-val="wotlk">Wrath of the Lich King (2008)</button>
+            <button class="pill-btn" data-val="cata">Cataclysm (2010)</button>
+            <button class="pill-btn" data-val="mop">Mists of Pandaria (2012)</button>
+            <button class="pill-btn" data-val="wod">Warlords of Draenor (2014)</button>
+            <button class="pill-btn" data-val="legion">Legion (2016)</button>
+            <button class="pill-btn" data-val="bfa">Battle for Azeroth (2018)</button>
+            <button class="pill-btn" data-val="shadowlands">Shadowlands (2020)</button>
+            <button class="pill-btn" data-val="dragonflight">Dragonflight (2022)</button>
+            <button class="pill-btn" data-val="warwithin">The War Within (2024)</button>
+            <button class="pill-btn" data-val="midnight">Midnight (2026)</button>
+            <button class="pill-btn" data-val="classic">Classic (Progression)</button>
+            <button class="pill-btn" data-val="forever">Forever (Classic+)</button>
+          </div>
+        </div>
+
+        <!-- Key Figures & Factions -->
+        <div class="composer-row">
+          <label class="composer-label">Key Figures & Factions</label>
+          <textarea id="chronicle-figures" class="composer-body" style="min-height:70px" placeholder="Who and what drove this era&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Notes & Trivia -->
+        <div class="composer-row">
+          <label class="composer-label">Notes & Trivia</label>
+          <textarea id="chronicle-notes" class="composer-body" style="min-height:70px" placeholder="Extra context, trivia, how it connects to other eras&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Tags -->
+        <div class="composer-row">
+          <label class="composer-label">Tags</label>
+          <input type="text" id="chronicle-tags" class="composer-tags-input" placeholder="tag1, tag2&hellip;" autocomplete="off"/>
+        </div>
+
+        <!-- Emoji strip -->
+        <div class="composer-row">
+          <label class="composer-label">Symbols</label>
+          <div class="emoji-strip" id="emoji-strip">
+            <button class="emoji-btn" data-emoji="⚔️">⚔️</button>
+            <button class="emoji-btn" data-emoji="🛡️">🛡️</button>
+            <button class="emoji-btn" data-emoji="🐉">🐉</button>
+            <button class="emoji-btn" data-emoji="🔥">🔥</button>
+            <button class="emoji-btn" data-emoji="❄️">❄️</button>
+            <button class="emoji-btn" data-emoji="🌍">🌍</button>
+            <button class="emoji-btn" data-emoji="🏰">🏰</button>
+            <button class="emoji-btn" data-emoji="⚡">⚡</button>
+            <button class="emoji-btn" data-emoji="💀">💀</button>
+            <button class="emoji-btn" data-emoji="👑">👑</button>
+            <button class="emoji-btn" data-emoji="🗡️">🗡️</button>
+            <button class="emoji-btn" data-emoji="🧪">🧪</button>
+            <button class="emoji-btn" data-emoji="🐴">🐴</button>
+            <button class="emoji-btn" data-emoji="🎯">🎯</button>
+            <button class="emoji-btn" data-emoji="🔮">🔮</button>
+            <button class="emoji-btn" data-emoji="🌟">🌟</button>
+            <button class="emoji-btn" data-emoji="🩸">🩸</button>
+            <button class="emoji-btn" data-emoji="🦅">🦅</button>
+            <button class="emoji-btn" data-emoji="🏹">🏹</button>
+            <button class="emoji-btn" data-emoji="🌋">🌋</button>
+          </div>
+        </div>
+
+        <!-- Pin -->
+        <div class="composer-row composer-row-inline">
+          <label class="pin-label">
+            <input type="checkbox" id="chronicle-pinned"/>
+            <span>&#x1F4CC; Pin this entry (core lore)</span>
+          </label>
+        </div>
+
+        <!-- ── IMAGE UPLOAD — Chronicle ── -->
+        <div class="img-upload-section">
+          <label class="composer-label">Images</label>
+          <div class="img-upload-controls">
+            <button class="img-pick-btn" data-form="chronicle" type="button">&#x1F4CE; Add Images</button>
+            <div class="img-url-row">
+              <input type="text" class="img-url-input" data-form="chronicle" placeholder="Or paste image URL&hellip;" autocomplete="off"/>
+              <button class="img-url-btn" data-form="chronicle" type="button">Add</button>
+            </div>
+          </div>
+          <div class="img-preview-strip" id="img-preview-strip-chronicle"></div>
+        </div>
+
+      </div><!-- /form-chronicle -->
+
+
+      <!-- ══════════════════════════════
+           SYSTEM COMPOSER
+           How to actually play — leveling, roles, professions, gear,
+           dungeons/raids, PvP, currency, travel.
+      ══════════════════════════════ -->
+      <div class="entry-form hidden" id="form-system">
+        <div class="composer-field">
+          <input type="text" id="system-title" class="composer-title-input" placeholder="System / topic name&hellip;" autocomplete="off" spellcheck="true"/>
+        </div>
+
+        <!-- Category -->
+        <div class="composer-row">
+          <label class="composer-label">Category</label>
+          <div class="pill-grid" id="system-category-grid">
+            <button class="pill-btn" data-val="gettingstarted">&#x1F331; Getting Started</button>
+            <button class="pill-btn active" data-val="leveling">&#x1F4C8; Leveling</button>
+            <button class="pill-btn" data-val="classesroles">&#x2694;&#xFE0F; Classes & Roles</button>
+            <button class="pill-btn" data-val="professions">&#x1F528; Professions</button>
+            <button class="pill-btn" data-val="talents">&#x1F333; Talents</button>
+            <button class="pill-btn" data-val="gear">&#x1F392; Gear & Itemization</button>
+            <button class="pill-btn" data-val="dungeonsraids">&#x1F409; Dungeons & Raids</button>
+            <button class="pill-btn" data-val="pvp">&#x1F3F9; PvP</button>
+            <button class="pill-btn" data-val="reputation">&#x1F91D; Reputation</button>
+            <button class="pill-btn" data-val="currency">&#x1FA99; Currency & Economy</button>
+            <button class="pill-btn" data-val="mounts">&#x1F40E; Mounts & Travel</button>
+            <button class="pill-btn" data-val="addonsui">&#x1F5A5;&#xFE0F; Addons & UI</button>
+            <button class="pill-btn" data-val="other">&#x1F300; Other</button>
+          </div>
+        </div>
+
+        <!-- Audience -->
+        <div class="composer-row">
+          <label class="composer-label">Audience</label>
+          <div class="pill-grid" id="system-audience-grid">
+            <button class="pill-btn active" data-val="newplayer">&#x1F331; New Player</button>
+            <button class="pill-btn" data-val="intermediate">&#x1F4D8; Getting Comfortable</button>
+            <button class="pill-btn" data-val="veteran">&#x267B;&#xFE0F; Veteran Reminder</button>
+            <button class="pill-btn" data-val="endgame">&#x1F3C6; Endgame</button>
+          </div>
+        </div>
+
+        <!-- Key Terms & Prerequisites -->
+        <div class="composer-row">
+          <label class="composer-label">Key Terms & Prerequisites</label>
+          <textarea id="system-terms" class="composer-body" style="min-height:70px" placeholder="Anything you need to know before this makes sense&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- How It Works -->
+        <div class="composer-row">
+          <label class="composer-label">How It Works</label>
+          <textarea id="system-body" class="composer-body" placeholder="The core explanation&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Tips & Reminders -->
+        <div class="composer-row">
+          <label class="composer-label">Tips & Reminders</label>
+          <textarea id="system-tips" class="composer-body" style="min-height:70px" placeholder="Practical advice, common mistakes, veteran reminders&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Tags -->
+        <div class="composer-row">
+          <label class="composer-label">Tags</label>
+          <input type="text" id="system-tags" class="composer-tags-input" placeholder="tag1, tag2&hellip;" autocomplete="off"/>
+        </div>
+
+        <!-- ── IMAGE UPLOAD — System ── -->
+        <div class="img-upload-section">
+          <label class="composer-label">Images</label>
+          <div class="img-upload-controls">
+            <button class="img-pick-btn" data-form="system" type="button">&#x1F4CE; Add Images</button>
+            <div class="img-url-row">
+              <input type="text" class="img-url-input" data-form="system" placeholder="Or paste image URL&hellip;" autocomplete="off"/>
+              <button class="img-url-btn" data-form="system" type="button">Add</button>
+            </div>
+          </div>
+          <div class="img-preview-strip" id="img-preview-strip-system"></div>
+        </div>
+
+      </div><!-- /form-system -->
+
+
+      <!-- ══════════════════════════════
+           ITEM COMPOSER
+           Representative gear categories — weapons, potions, armor —
+           what they're for and why they exist. Not an exhaustive database.
+      ══════════════════════════════ -->
+      <div class="entry-form hidden" id="form-item">
+        <div class="composer-field">
+          <input type="text" id="item-title" class="composer-title-input" placeholder="Item category name&hellip;" autocomplete="off" spellcheck="true"/>
+        </div>
+
+        <!-- Item Type -->
+        <div class="composer-row">
+          <label class="composer-label">Type</label>
+          <div class="pill-grid" id="item-type-grid">
+            <button class="pill-btn active" data-val="weapon">&#x2694;&#xFE0F; Weapon</button>
+            <button class="pill-btn" data-val="potion">&#x1F9EA; Potion / Elixir</button>
+            <button class="pill-btn" data-val="armor">&#x1F6E1;&#xFE0F; Armor</button>
+            <button class="pill-btn" data-val="consumable">&#x1F35E; Consumable</button>
+            <button class="pill-btn" data-val="reagent">&#x1FAB5; Reagent</button>
+            <button class="pill-btn" data-val="mount">&#x1F40E; Mount</button>
+            <button class="pill-btn" data-val="currency">&#x1FA99; Currency</button>
+            <button class="pill-btn" data-val="questitem">&#x1F4DC; Quest Item</button>
+            <button class="pill-btn" data-val="other">&#x1F300; Other</button>
+          </div>
+        </div>
+
+        <!-- Quality -->
+        <div class="composer-row">
+          <label class="composer-label">Quality / Rarity</label>
+          <div class="pill-grid" id="item-quality-grid">
+            <button class="pill-btn" data-val="poor">&#x2B1C; Poor</button>
+            <button class="pill-btn active" data-val="common">&#x26AA; Common</button>
+            <button class="pill-btn" data-val="uncommon">&#x1F7E9; Uncommon</button>
+            <button class="pill-btn" data-val="rare">&#x1F7E6; Rare</button>
+            <button class="pill-btn" data-val="epic">&#x1F7EA; Epic</button>
+            <button class="pill-btn" data-val="legendary">&#x1F7E7; Legendary</button>
+            <button class="pill-btn" data-val="heirloom">&#x1F536; Heirloom</button>
+            <button class="pill-btn" data-val="artifact">&#x1F31F; Artifact</button>
+          </div>
+        </div>
+
+        <!-- Representative Examples -->
+        <div class="composer-row">
+          <label class="composer-label">Representative Examples</label>
+          <textarea id="item-examples" class="composer-body" style="min-height:70px" placeholder="A few examples — not an exhaustive list&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- What It's For -->
+        <div class="composer-row">
+          <label class="composer-label">What It's For & Why It Exists</label>
+          <textarea id="item-purpose" class="composer-body" style="min-height:70px" placeholder="Why this category matters, when you'd reach for it&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Notes -->
+        <div class="composer-row">
+          <label class="composer-label">Notes</label>
+          <textarea id="item-notes" class="composer-body" style="min-height:70px" placeholder="Anything else worth remembering&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Tags -->
+        <div class="composer-row">
+          <label class="composer-label">Tags</label>
+          <input type="text" id="item-tags" class="composer-tags-input" placeholder="tag1, tag2&hellip;" autocomplete="off"/>
+        </div>
+
+        <!-- ── IMAGE UPLOAD — Item ── -->
+        <div class="img-upload-section">
+          <label class="composer-label">Images</label>
+          <div class="img-upload-controls">
+            <button class="img-pick-btn" data-form="item" type="button">&#x1F4CE; Add Images</button>
+            <div class="img-url-row">
+              <input type="text" class="img-url-input" data-form="item" placeholder="Or paste image URL&hellip;" autocomplete="off"/>
+              <button class="img-url-btn" data-form="item" type="button">Add</button>
+            </div>
+          </div>
+          <div class="img-preview-strip" id="img-preview-strip-item"></div>
+        </div>
+
+      </div><!-- /form-item -->
+
+
+      <!-- ══════════════════════════════
+           COMPARISON COMPOSER
+           Same system, two eras — similarities and differences.
+      ══════════════════════════════ -->
+      <div class="entry-form hidden" id="form-comparison">
+        <div class="composer-field">
+          <input type="text" id="comparison-title" class="composer-title-input" placeholder="System being compared&hellip;" autocomplete="off" spellcheck="true"/>
+        </div>
+
+        <!-- Era A -->
+        <div class="composer-row">
+          <label class="composer-label">Era A</label>
+          <div class="pill-grid" id="comparison-eraa-grid">
+            <button class="pill-btn active" data-val="vanilla">Vanilla</button>
+            <button class="pill-btn" data-val="tbc">Burning Crusade</button>
+            <button class="pill-btn" data-val="wotlk">Wrath of the Lich King</button>
+            <button class="pill-btn" data-val="cata">Cataclysm</button>
+            <button class="pill-btn" data-val="mop">Mists of Pandaria</button>
+            <button class="pill-btn" data-val="wod">Warlords of Draenor</button>
+            <button class="pill-btn" data-val="legion">Legion</button>
+            <button class="pill-btn" data-val="bfa">Battle for Azeroth</button>
+            <button class="pill-btn" data-val="shadowlands">Shadowlands</button>
+            <button class="pill-btn" data-val="dragonflight">Dragonflight</button>
+            <button class="pill-btn" data-val="warwithin">The War Within</button>
+            <button class="pill-btn" data-val="midnight">Midnight</button>
+            <button class="pill-btn" data-val="classic">Classic (Progression)</button>
+            <button class="pill-btn" data-val="forever">Forever (Classic+)</button>
+          </div>
+        </div>
+
+        <!-- Era A Details -->
+        <div class="composer-row">
+          <label class="composer-label">Era A Details</label>
+          <textarea id="comparison-a-body" class="composer-body" style="min-height:80px" placeholder="How this system works in Era A&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Era B -->
+        <div class="composer-row">
+          <label class="composer-label">Era B</label>
+          <div class="pill-grid" id="comparison-erab-grid">
+            <button class="pill-btn" data-val="vanilla">Vanilla</button>
+            <button class="pill-btn" data-val="tbc">Burning Crusade</button>
+            <button class="pill-btn" data-val="wotlk">Wrath of the Lich King</button>
+            <button class="pill-btn" data-val="cata">Cataclysm</button>
+            <button class="pill-btn" data-val="mop">Mists of Pandaria</button>
+            <button class="pill-btn" data-val="wod">Warlords of Draenor</button>
+            <button class="pill-btn" data-val="legion">Legion</button>
+            <button class="pill-btn" data-val="bfa">Battle for Azeroth</button>
+            <button class="pill-btn" data-val="shadowlands">Shadowlands</button>
+            <button class="pill-btn" data-val="dragonflight">Dragonflight</button>
+            <button class="pill-btn" data-val="warwithin">The War Within</button>
+            <button class="pill-btn" data-val="midnight">Midnight</button>
+            <button class="pill-btn" data-val="classic">Classic (Progression)</button>
+            <button class="pill-btn active" data-val="forever">Forever (Classic+)</button>
+          </div>
+        </div>
+
+        <!-- Era B Details -->
+        <div class="composer-row">
+          <label class="composer-label">Era B Details</label>
+          <textarea id="comparison-b-body" class="composer-body" style="min-height:80px" placeholder="How this system works in Era B&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Similarities -->
+        <div class="composer-row">
+          <label class="composer-label">Similarities</label>
+          <textarea id="comparison-similarities" class="composer-body" style="min-height:70px" placeholder="What stays the same between them&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Differences -->
+        <div class="composer-row">
+          <label class="composer-label">Differences</label>
+          <textarea id="comparison-differences" class="composer-body" style="min-height:70px" placeholder="What actually changed&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Tags -->
+        <div class="composer-row">
+          <label class="composer-label">Tags</label>
+          <input type="text" id="comparison-tags" class="composer-tags-input" placeholder="tag1, tag2&hellip;" autocomplete="off"/>
+        </div>
+
+        <!-- ── IMAGE UPLOAD — Comparison ── -->
+        <div class="img-upload-section">
+          <label class="composer-label">Images</label>
+          <div class="img-upload-controls">
+            <button class="img-pick-btn" data-form="comparison" type="button">&#x1F4CE; Add Images</button>
+            <div class="img-url-row">
+              <input type="text" class="img-url-input" data-form="comparison" placeholder="Or paste image URL&hellip;" autocomplete="off"/>
+              <button class="img-url-btn" data-form="comparison" type="button">Add</button>
+            </div>
+          </div>
+          <div class="img-preview-strip" id="img-preview-strip-comparison"></div>
+        </div>
+
+      </div><!-- /form-comparison -->
+
+
+      <!-- ══════════════════════════════
+           ICON COMPOSER
+           Symbol glossary — quality colors, role icons, currency,
+           UI symbols. Text/emoji swatches only, not in-game art assets.
+      ══════════════════════════════ -->
+      <div class="entry-form hidden" id="form-icon">
+        <div class="composer-field">
+          <input type="text" id="icon-title" class="composer-title-input" placeholder="Icon / symbol name&hellip;" autocomplete="off" spellcheck="true"/>
+        </div>
+
+        <!-- Symbol -->
+        <div class="composer-row">
+          <label class="composer-label">Symbol (text / emoji swatch)</label>
+          <input type="text" id="icon-symbol" class="composer-symbol-input" placeholder="e.g. ⬜ ⬛ 🟩 🟦 🟪 🟧" autocomplete="off"/>
+        </div>
+
+        <!-- Category -->
+        <div class="composer-row">
+          <label class="composer-label">Category</label>
+          <div class="pill-grid" id="icon-category-grid">
+            <button class="pill-btn active" data-val="quality">&#x1F7E6; Item Quality</button>
+            <button class="pill-btn" data-val="classspec">&#x2694;&#xFE0F; Class & Spec</button>
+            <button class="pill-btn" data-val="role">&#x1F6E1;&#xFE0F; Role</button>
+            <button class="pill-btn" data-val="currency">&#x1FA99; Currency</button>
+            <button class="pill-btn" data-val="uihud">&#x1F5A5;&#xFE0F; UI / HUD</button>
+            <button class="pill-btn" data-val="chatsocial">&#x1F4AC; Chat & Social</button>
+            <button class="pill-btn" data-val="map">&#x1F5FA;&#xFE0F; Map</button>
+            <button class="pill-btn" data-val="other">&#x1F300; Other</button>
+          </div>
+        </div>
+
+        <!-- Meaning -->
+        <div class="composer-row">
+          <label class="composer-label">Meaning</label>
+          <textarea id="icon-meaning" class="composer-body" placeholder="What it means and why it's shown&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Where You'll See It -->
+        <div class="composer-row">
+          <label class="composer-label">Where You'll See It</label>
+          <textarea id="icon-context" class="composer-body" style="min-height:70px" placeholder="Which screens/windows show this&hellip;" spellcheck="true"></textarea>
+        </div>
+
+        <!-- Tags -->
+        <div class="composer-row">
+          <label class="composer-label">Tags</label>
+          <input type="text" id="icon-tags" class="composer-tags-input" placeholder="tag1, tag2&hellip;" autocomplete="off"/>
+        </div>
+
+        <!-- ── IMAGE UPLOAD — Icon ── -->
+        <div class="img-upload-section">
+          <label class="composer-label">Images</label>
+          <div class="img-upload-controls">
+            <button class="img-pick-btn" data-form="icon" type="button">&#x1F4CE; Add Images</button>
+            <div class="img-url-row">
+              <input type="text" class="img-url-input" data-form="icon" placeholder="Or paste image URL&hellip;" autocomplete="off"/>
+              <button class="img-url-btn" data-form="icon" type="button">Add</button>
+            </div>
+          </div>
+          <div class="img-preview-strip" id="img-preview-strip-icon"></div>
+        </div>
+
+      </div><!-- /form-icon -->
+
+
+      <!-- ── ACTION BAR — shared across all forms ── -->
+      <div class="composer-actions">
+        <button class="btn-clear" id="btn-clear">Clear</button>
+        <div class="composer-actions-right">
+          <span id="save-status" class="save-status"></span>
+          <button class="btn-save" id="btn-save" disabled>&#x1F4BE; Save to Grimoire</button>
+        </div>
+      </div>
+
+    </div><!-- /composer -->
+
+
+    <!-- ── RECENT PANEL ── -->
+    <div id="recent-panel">
+      <div class="recent-header">
+        <span class="recent-title">Grimoire</span>
+        <div class="recent-filters" id="recent-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="chronicle">&#x1F4D6;</button>
+          <button class="filter-btn" data-filter="system">&#x2694;&#xFE0F;</button>
+          <button class="filter-btn" data-filter="item">&#x1F392;</button>
+          <button class="filter-btn" data-filter="comparison">&#x1F4CA;</button>
+          <button class="filter-btn" data-filter="icon">&#x1F523;</button>
+        </div>
+      </div>
+      <div class="recent-count-bar">
+        <span class="recent-count" id="recent-count">0 entries</span>
+      </div>
+
+      <!-- ── Grimoire Search + Autosuggest ── -->
+      <div class="grimoire-search-wrap">
+        <input  type="text"   id="grimoire-search"       class="grimoire-search-input" placeholder="Search the Grimoire&hellip;" autocomplete="off" spellcheck="false"/>
+        <button type="button" id="grimoire-search-clear"  class="grimoire-search-clear" style="display:none">&#x2715;</button>
+        <div id="grimoire-suggest" class="grimoire-suggest" style="display:none"></div>
+      </div>
+
+      <div id="recent-list" class="recent-list">
+        <div class="recent-empty">Your Grimoire is empty.<br/>Begin your first entry above.</div>
+      </div>
+    </div><!-- /recent-panel -->
+
+  </div><!-- /main -->
+
+
+  <!-- ── FOOTER ── -->
+  <footer id="footer">
+    <span class="footer-sig">~/>  Warcraft Grimoire  &middot;  v1h</span>
+    <span class="footer-entry-count" id="footer-count">&mdash; entries</span>
+  </footer>
+
+
+  <!-- ══════════════════════════════
+       READER MODAL
+  ══════════════════════════════ -->
+  <div id="overlay-reader" class="overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Grimoire Reader">
+    <div class="reader-modal">
+
+      <div class="reader-header">
+        <div class="reader-header-left">
+          <span class="reader-title">Grimoire</span>
+          <span class="reader-subtitle" id="reader-subtitle">All Entries</span>
+        </div>
+        <div class="reader-header-right">
+          <input type="text" class="reader-search" id="reader-search" placeholder="Search the Grimoire&hellip;"/>
+          <select class="reader-filter-sel" id="reader-filter-type">
+            <option value="">All types</option>
+            <option value="chronicle">&#x1F4D6; Chronicle</option>
+            <option value="system">&#x2694;&#xFE0F; System</option>
+            <option value="item">&#x1F392; Item</option>
+            <option value="comparison">&#x1F4CA; Comparison</option>
+            <option value="icon">&#x1F523; Icon</option>
+          </select>
+          <select class="reader-filter-sel" id="reader-filter-cat">
+            <option value="">All categories</option>
+          </select>
+          <button class="reader-toggle-btn" id="reader-terms-toggle" title="Toggle inline Dictionary term-linking">&#x1F524; Terms: On</button>
+          <button class="reader-sort-btn" id="reader-sort">&#x2193; Newest</button>
+          <button class="reader-close-btn" id="reader-close">&#x2715;</button>
+        </div>
+      </div>
+
+      <div class="reader-body" id="reader-body">
+        <!-- Entries rendered by JS -->
+      </div>
+
+    </div>
+  </div><!-- /overlay-reader -->
+
+
+  <!-- ══════════════════════════════
+       DELETE CONFIRM MODAL
+  ══════════════════════════════ -->
+  <div id="overlay-delete" class="overlay" style="display:none" role="dialog" aria-modal="true">
+    <div class="modal-sm">
+      <h3>Remove Entry?</h3>
+      <p>This cannot be undone. The entry will be removed from your Grimoire.</p>
+      <div class="modal-actions">
+        <button class="btn-sec" id="delete-cancel">Cancel</button>
+        <button class="btn-danger" id="delete-confirm">Remove</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       RESTOCK CONFIRM MODAL
+       Adds any seed entries (matched by type + title) missing from
+       the current Grimoire — e.g. after a Claude-side content update
+       lands but this browser's localStorage predates it, since
+       auto-seeding only ever runs once, on a genuinely empty Grimoire.
+       Never touches or duplicates anything already present.
+  ══════════════════════════════ -->
+  <div id="overlay-restock" class="overlay" style="display:none" role="dialog" aria-modal="true">
+    <div class="modal-sm">
+      <h3 class="modal-title-neutral">Restock Missing Content?</h3>
+      <p id="restock-message">Checking for missing content&hellip;</p>
+      <div class="modal-actions">
+        <button class="btn-sec" id="restock-cancel">Cancel</button>
+        <button class="btn-save" id="restock-confirm" style="padding:8px 16px">Add Entries</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       MY HIGHLIGHTS MODAL
+       Lists every saved highlight, newest first, with a text snippet
+       and context, a jump-back to the source entry, and a remove button.
+  ══════════════════════════════ -->
+  <div id="overlay-highlights" class="overlay" style="display:none" role="dialog" aria-modal="true" aria-label="My Highlights">
+    <div class="highlights-modal">
+      <div class="reader-header">
+        <div class="reader-header-left">
+          <span class="reader-title">My Highlights</span>
+          <span class="reader-subtitle">Select text anywhere in the Reader to add one</span>
+        </div>
+        <div class="reader-header-right">
+          <button class="reader-close-btn" id="highlights-close">&#x2715;</button>
+        </div>
+      </div>
+      <div class="hl-list" id="highlights-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       DICTIONARY MODAL
+       Full browsable WoW-terms glossary with search.
+  ══════════════════════════════ -->
+  <div id="overlay-dictionary" class="overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Dictionary">
+    <div class="dictionary-modal">
+      <div class="reader-header">
+        <div class="reader-header-left">
+          <span class="reader-title">Dictionary</span>
+          <span class="reader-subtitle">Common WoW terms & acronyms</span>
+        </div>
+        <div class="reader-header-right">
+          <button class="reader-close-btn" id="dict-close">&#x2715;</button>
+        </div>
+      </div>
+      <div class="dict-search-wrap">
+        <input type="text" id="dict-search" class="dict-search-input" placeholder="Search terms&hellip;" autocomplete="off"/>
+      </div>
+      <div class="dict-list" id="dict-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       CHARACTERS MODAL
+       Major/main character reference. Data comes from the global
+       WOW_CHARACTERS array in assets/data/characters.js, loaded via
+       a <script> tag above (works with file://, unlike fetch+JSON).
+  ══════════════════════════════ -->
+  <div id="overlay-characters" class="overlay" style="display:none" role="dialog" aria-modal="true" aria-label="Characters">
+    <div class="characters-modal">
+      <div class="reader-header">
+        <div class="reader-header-left">
+          <span class="reader-title">Characters</span>
+          <span class="reader-subtitle">Major & main figures across the story</span>
+        </div>
+        <div class="reader-header-right">
+          <button class="reader-close-btn" id="char-close">&#x2715;</button>
+        </div>
+      </div>
+      <div class="char-search-wrap">
+        <input type="text" id="char-search" class="char-search-input" placeholder="Search characters&hellip;" autocomplete="off"/>
+        <div class="char-filter-row" id="char-filter-row">
+          <button class="char-filter-btn active" data-filter="all">All</button>
+          <button class="char-filter-btn" data-filter="alliance">Alliance</button>
+          <button class="char-filter-btn" data-filter="horde">Horde</button>
+          <button class="char-filter-btn" data-filter="neutral">Neutral / Other</button>
+        </div>
+      </div>
+      <div class="char-list" id="char-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       HIDDEN FILE INPUT
+       Single shared input — JS clicks and wires it per active form.
+       accept="image/*" — JPEG, PNG, GIF, WebP all supported.
+       multiple — allows batch selection.
+  ══════════════════════════════ -->
+  <input type="file" id="img-file-input" accept="image/*" multiple style="display:none" aria-hidden="true"/>
+
+
+</div><!-- /app -->
+
+<!-- ── JavaScript ── -->
+<script src="assets/data/characters.js"></script>
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
